@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -33,7 +32,7 @@ public class RetardedOrisResponseDataConverter : JsonConverterFactory
         public NullableConverter(JsonSerializerOptions options)
         {
             _type = typeof(T);
-            
+
             // For performance, use the existing converter.
             _innerConverter = (JsonConverter<T?>)options
                 .GetConverter(_type);
