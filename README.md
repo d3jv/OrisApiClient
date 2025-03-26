@@ -1,10 +1,9 @@
-= OrisApiClient
+# OrisApiClient
 
 Klient pro API ORISu (https://oris.orientacnisporty.cz/API)
 
-CAUTION:
-Work in progress
+**Work in progress**
 
-== Použití
+## Použití
 
 TBD
