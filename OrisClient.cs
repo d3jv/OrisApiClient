@@ -49,11 +49,30 @@ public class OrisClient : IOrisClient
         return response;
     }
 
-    public async Task<OrisResponse<OrisUserClub>> GetRegistrationsAsync(int orisID)
+    public async Task<OrisResponse<OrisUserClubs>> GetUserClubs(int id, DateTime? date)
     {
-        var response = await _client.Request("method=getClubUsers")
-            .SetQueryParam("user", orisID)
-            .GetJsonAsync<OrisResponse<OrisUserClub>>();
+        var request = _client.Request("method=getClubUsers")
+            .SetQueryParam("user", id);
+
+        if (date is not null) {
+            request.SetQueryParam("date", date?.ToString("yyyy-mm-dd"));
+        }
+
+        var response = await request
+            .GetJsonAsync<OrisResponse<OrisUserClubs>>();
+
+        if (response.Status != "OK") {
+            throw new OrisApiException(response.Status);
+        }
+
+        return response;
+    }
+
+    public async Task<OrisResponse<OrisUser>> GetUser(string rgnum)
+    {
+        var response = await _client.Request("method=getUser")
+            .SetQueryParam("rgnum", rgnum)
+            .GetJsonAsync<OrisResponse<OrisUser>>();
 
         if (response.Status != "OK") {
             throw new OrisApiException(response.Status);
