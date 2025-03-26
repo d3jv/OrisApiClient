@@ -32,12 +32,7 @@ public class OrisClient : IOrisClient
     private void SuccessOrDie<T>(OrisResponse<T> response)
     {
         if (response is null) {
-            throw new OrisApiException("Not found");
-        }
-
-        if (response.Status != "OK") {
-            // ORIS sends error messages in the Status field
-            throw new OrisApiException(response.Status);
+            throw new OrisApiException("ORIS did not respond");
         }
     }
 
