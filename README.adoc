@@ -1,0 +1,10 @@
+= OrisApiClient
+
+Klient pro API ORISu (https://oris.orientacnisporty.cz/API)
+
+CAUTION:
+Work in progress
+
+== Použití
+
+TBD
