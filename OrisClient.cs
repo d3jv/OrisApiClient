@@ -29,6 +29,18 @@ public class OrisClient : IOrisClient
         _client = clients.Get("ORIS");
     }
 
+    private void SuccessOrDie<T>(OrisResponse<T> response)
+    {
+        if (response is null) {
+            throw new OrisApiException("Not found");
+        }
+
+        if (response.Status != "OK") {
+            // ORIS sends error messages in the Status field
+            throw new OrisApiException(response.Status);
+        }
+    }
+
     public async Task<OrisResponse<OrisAuth>> AuthenticateAsync(string username, string password)
     {
         var response = await _client
@@ -41,10 +53,7 @@ public class OrisClient : IOrisClient
                 password })
             .ReceiveJson<OrisResponse<OrisAuth>>();
 
-        if (response.Status != "OK") {
-            // ORIS sends error messages in the Status field
-            throw new OrisApiException(response.Status);
-        }
+        SuccessOrDie(response);
 
         return response;
     }
@@ -61,9 +70,7 @@ public class OrisClient : IOrisClient
         var response = await request
             .GetJsonAsync<OrisResponse<OrisUserClubs>>();
 
-        if (response.Status != "OK") {
-            throw new OrisApiException(response.Status);
-        }
+        SuccessOrDie(response);
 
         return response;
     }
@@ -74,9 +81,7 @@ public class OrisClient : IOrisClient
             .SetQueryParam("rgnum", rgnum)
             .GetJsonAsync<OrisResponse<OrisUser>>();
 
-        if (response.Status != "OK") {
-            throw new OrisApiException(response.Status);
-        }
+        SuccessOrDie(response);
 
         return response;
     }
