@@ -58,7 +58,7 @@ public class OrisClient : IOrisClient
         return response;
     }
 
-    public async Task<OrisResponse<OrisUserClubs>> GetUserClubs(int id, DateTime? date)
+    public async Task<OrisResponse<OrisUserClubs>> GetUserClubsAsync(int id, DateTime? date = null)
     {
         var request = _client.Request("method=getClubUsers")
             .SetQueryParam("user", id);
@@ -75,7 +75,7 @@ public class OrisClient : IOrisClient
         return response;
     }
 
-    public async Task<OrisResponse<OrisUser>> GetUser(string rgnum)
+    public async Task<OrisResponse<OrisUser>> GetUserAsync(string rgnum)
     {
         var response = await _client.Request("method=getUser")
             .SetQueryParam("rgnum", rgnum)
