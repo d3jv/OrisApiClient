@@ -9,21 +9,14 @@ public class RetardedOrisResponseDataConverter : JsonConverterFactory
 {
     public override bool CanConvert(Type typeToConvert)
     {
-        return typeToConvert.IsGenericType &&
-            typeToConvert.GetGenericTypeDefinition() == typeof(Dictionary<,>) &&
-            typeToConvert.GetGenericArguments()[0] == typeof(string);
+        return true;
     }
 
     public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
-        Type[] typeArguments = typeToConvert.GetGenericArguments();
-        Type keyType = typeArguments[0];
-        Debug.Assert(keyType == typeof(string));
-        Type valueType = typeArguments[1];
-
         JsonConverter converter = (JsonConverter)Activator.CreateInstance(
-            typeof(DictionaryStringConverter<>).MakeGenericType(
-                [valueType]),
+            typeof(NullableConverter<>).MakeGenericType(
+                [typeToConvert]),
             BindingFlags.Instance | BindingFlags.Public,
             binder: null,
             args: [options],
@@ -32,63 +25,33 @@ public class RetardedOrisResponseDataConverter : JsonConverterFactory
         return converter;
     }
 
-    private class DictionaryStringConverter<Tvalue> : JsonConverter<Dictionary<string, Tvalue>?>
+    private class NullableConverter<T> : JsonConverter<T?>
     {
-        private readonly JsonConverter<Tvalue> _valueConverter;
-        private readonly Type _valueType;
+        private readonly JsonConverter<T?> _innerConverter;
+        private readonly Type _type;
 
-        public DictionaryStringConverter(JsonSerializerOptions options)
+        public NullableConverter(JsonSerializerOptions options)
         {
+            _type = typeof(T);
+            
             // For performance, use the existing converter.
-            _valueConverter = (JsonConverter<Tvalue>)options
-                .GetConverter(typeof(Tvalue));
-
-            // Cache the value type.
-            _valueType = typeof(Tvalue);
+            _innerConverter = (JsonConverter<T?>)options
+                .GetConverter(_type);
         }
 
-        public override Dictionary<string, Tvalue>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             if (reader.TokenType == JsonTokenType.StartArray) {
                 if (reader.Read() && reader.TokenType == JsonTokenType.EndArray) {
-                    return null;
+                    return default;
                 }
                 throw new JsonException();
             }
 
-            if (reader.TokenType != JsonTokenType.StartObject) {
-                throw new JsonException();
-            }
-
-            var dictionary = new Dictionary<string, Tvalue>();
-
-            while (reader.Read()) {
-                if (reader.TokenType == JsonTokenType.EndObject) {
-                    return dictionary;
-                }
-
-                // Get the key.
-                if (reader.TokenType != JsonTokenType.PropertyName) {
-                    throw new JsonException();
-                }
-
-                string? propertyName = reader.GetString();
-                if (propertyName == null) {
-                    throw new JsonException();
-                }
-
-                // Get the value.
-                reader.Read();
-                Tvalue value = _valueConverter.Read(ref reader, _valueType, options)!;
-
-                // Add to dictionary.
-                dictionary.Add(propertyName, value);
-            }
-
-            throw new JsonException();
+            return _innerConverter.Read(ref reader, typeToConvert, options);
         }
 
-        public override void Write(Utf8JsonWriter writer, Dictionary<string, Tvalue>? value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, T? value, JsonSerializerOptions options)
         {
             throw new NotSupportedException("Writing is not supported due to a shortage of fucks given");
         }

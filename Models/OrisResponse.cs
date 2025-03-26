@@ -23,13 +23,6 @@ public class OrisResponse<T>
     /// []
     /// IT'S AN EMPTY ARRAY, a whole different type. The retarded data converter handles this.
     /// </summary>
-    [JsonInclude] // Allows serialization of props with private getter
-    [JsonPropertyName("Data")]
     [JsonConverter(typeof(RetardedOrisResponseDataConverter))]
-    // TODO: dictionary is returned only when multiple entries are requested (like getCsosClubList)
-    //       We should probably fix this
-    public IDictionary<string, T>? _data { private get; init; }
-
-    [JsonIgnore]
-    public IEnumerable<T>? Data => _data?.Values;
+    public T? Data { get; init; }
 }
