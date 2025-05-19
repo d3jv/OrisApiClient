@@ -11,6 +11,9 @@ public class OrisResponse<T>
 
     public string Status { get; init; }
 
+    [JsonIgnore]
+    public bool IsOk => Status == "OK";
+
     [JsonConverter(typeof(DateTimeJsonConverter))]
     public DateTime ExportCreated { get; init; }
 
