@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using OrisApi.Models.Enums;
 using OrisApi.JsonConverters;
 using static OrisApi.Models.OrisUserClubs;
 
@@ -25,11 +24,5 @@ public class OrisUserClubs : Dictionary<string, OrisUserClub>
         public DateTime MemberTo { get; init; }
 
         public string RegNo { get; init; }
-
-        [JsonIgnore]
-        public string Club => RegNo.Substring(0, 3);
-
-        [JsonIgnore]
-        public OrisGender Gender => RegNo[5] < 5 ? OrisGender.MALE : OrisGender.FEMALE;
     }
 }
