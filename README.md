@@ -2,7 +2,48 @@
 
 Klient pro API ORISu (https://oris.orientacnisporty.cz/API)
 
-**Work in progress**
+**Implementované metody:**
+
+- [ ] GetCSOSClubList
+- [ ] GetClub
+- [ ] GetEventList
+- [ ] GetEventListVersions
+- [ ] GetEvent
+- [ ] GetEventEntries
+- [ ] GetUserEventEntries
+- [ ] GetEventServiceEntries
+- [ ] GetEventResults
+- [ ] GetEventRankResults
+- [ ] GetEventStartLists
+- [x] GetUser
+- [ ] GetRegistration
+- [x] GetClubUsers (GetUserClubs)
+- [ ] GetValidClasses
+- [ ] CreateENtry
+- [ ] UpdateEntry
+- [ ] DeleteEntry
+- [ ] CreateServiceEntry
+- [ ] UpdateServiceEntry
+- [ ] DeleteServiceEntry
+- [ ] GetEventBalance
+- [ ] GetVersion
+- [ ] GetList
+- [ ] GetClassDefinitions
+- [ ] GetSplits
+- [ ] GetClubEntryRights
+- [ ] SetClubEntryRights
+- [ ] CreateEventPayment
+- [ ] GetClubUserList
+- [ ] CreatePerson
+- [ ] EditPerson
+- [ ] CreateClubUser
+- [ ] EditClubUser
+- [ ] CreateUserLogin
+- [ ] GetClubHosting
+- [ ] GetClubChange
+- [ ] GetRankingTypes
+- [x] LoginUser
+
 
 ## Použití
 
