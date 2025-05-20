@@ -3,6 +3,7 @@ using OrisApi.Models;
 using Flurl;
 using Flurl.Http;
 using Flurl.Http.Configuration;
+using OrisApi.Models.Enums;
 
 namespace OrisApi;
 
@@ -75,6 +76,43 @@ public class OrisClient : IOrisClient
         var response = await _client.Request("method=getUser")
             .SetQueryParam("rgnum", rgnum)
             .GetJsonAsync<OrisResponse<OrisUser>>();
+
+        SuccessOrDie(response);
+
+        return response;
+    }
+
+    public async Task<OrisResponse<OrisListEventVersions>> GetEventListVersions(
+            bool all = false,
+            string? name = null,
+            OrisSport? sport = null,
+            OrisRegion? rg = null,
+            IEnumerable<OrisLevel>? level = null,
+            DateOnly? datefrom = null,
+            DateOnly? dateto = null,
+            string? club = null
+            // myClubId isn't there because it doesn't filter by club
+            // id, it just adds some random fields to the response,
+            // they do not appear in the Versions variant though...
+            )
+    {
+        var request = _client.Request("method=getEventListVersions");
+        if (all) {
+            request.AppendQueryParam("all", 1);
+        }
+        var response = await request
+            .AppendQueryParam("name", name, NullValueHandling.Ignore)
+            .AppendQueryParam("sport", sport, NullValueHandling.Ignore)
+            .AppendQueryParam("rg", rg?.ToString(), NullValueHandling.Ignore)
+            .AppendQueryParam("level",
+                    level?
+                        .Select(x => ((int)x).ToString())
+                        .Aggregate((a,b) => a + ',' + b),
+                    NullValueHandling.Ignore)
+            .AppendQueryParam("datefrom", datefrom?.ToString("yyyy-MM-dd"), NullValueHandling.Ignore)
+            .AppendQueryParam("dateto", dateto?.ToString("yyyy-MM-dd"), NullValueHandling.Ignore)
+            .AppendQueryParam("club", club, NullValueHandling.Ignore)
+            .GetJsonAsync<OrisResponse<OrisListEventVersions>>();
 
         SuccessOrDie(response);
 
