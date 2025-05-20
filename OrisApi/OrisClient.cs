@@ -7,6 +7,7 @@ using OrisApi.Models.Enums;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using OrisApi.JsonConverters;
+using OrisApi.Models.GetEventList;
 
 namespace OrisApi;
 
@@ -97,7 +98,8 @@ public class OrisClient : IOrisClient
         return response;
     }
 
-    public async Task<OrisResponse<OrisListEventVersions>> GetEventListVersions(
+    private IFlurlRequest EventListRequest(
+            IFlurlRequest request,
             bool all = false,
             string? name = null,
             OrisSport? sport = null,
@@ -105,17 +107,12 @@ public class OrisClient : IOrisClient
             IEnumerable<OrisLevel>? level = null,
             DateOnly? datefrom = null,
             DateOnly? dateto = null,
-            string? club = null
-            // myClubId isn't there because it doesn't filter by club
-            // id, it just adds some random fields to the response,
-            // they do not appear in the Versions variant though...
-            )
+            string? club = null)
     {
-        var request = _client.Request("method=getEventListVersions");
         if (all) {
             request.AppendQueryParam("all", 1);
         }
-        var response = await request
+        return request
             .AppendQueryParam("name", name, NullValueHandling.Ignore)
             .AppendQueryParam("sport", sport, NullValueHandling.Ignore)
             .AppendQueryParam("rg", rg?.ToString(), NullValueHandling.Ignore)
@@ -126,8 +123,66 @@ public class OrisClient : IOrisClient
                     NullValueHandling.Ignore)
             .AppendQueryParam("datefrom", datefrom?.ToString("yyyy-MM-dd"), NullValueHandling.Ignore)
             .AppendQueryParam("dateto", dateto?.ToString("yyyy-MM-dd"), NullValueHandling.Ignore)
-            .AppendQueryParam("club", club, NullValueHandling.Ignore)
-            .GetJsonAsync<OrisResponse<OrisListEventVersions>>();
+            .AppendQueryParam("club", club, NullValueHandling.Ignore);
+    }
+
+    public async Task<OrisResponse<OrisEventList_Versions>> GetEventListVersions(
+            bool all = false,
+            string? name = null,
+            OrisSport? sport = null,
+            OrisRegion? rg = null,
+            IEnumerable<OrisLevel>? level = null,
+            DateOnly? datefrom = null,
+            DateOnly? dateto = null,
+            string? club = null)
+    {
+        var response = await EventListRequest(
+            _client.Request("method=getEventListVersions"),
+            all, name, sport, rg, level, datefrom, dateto, club
+        ).GetJsonAsync<OrisResponse<OrisEventList_Versions>>();
+
+        SuccessOrDie(response);
+
+        return response;
+    }
+
+    public async Task<OrisResponse<OrisEventList>> GetEventList(
+            bool all = false,
+            string? name = null,
+            OrisSport? sport = null,
+            OrisRegion? rg = null,
+            IEnumerable<OrisLevel>? level = null,
+            DateOnly? datefrom = null,
+            DateOnly? dateto = null,
+            string? club = null)
+    {
+        var response = await EventListRequest(
+            _client.Request("method=getEventList"),
+            all, name, sport, rg, level, datefrom, dateto, club
+        ).GetJsonAsync<OrisResponse<OrisEventList>>();
+
+        SuccessOrDie(response);
+
+        return response;
+    }
+
+    public async Task<OrisResponse<OrisEventList_ClubEntries>> GetEventList(
+            bool all = false,
+            string? name = null,
+            OrisSport? sport = null,
+            OrisRegion? rg = null,
+            IEnumerable<OrisLevel>? level = null,
+            DateOnly? datefrom = null,
+            DateOnly? dateto = null,
+            string? club = null,
+            int? myClubId = null)
+    {
+        var response = await EventListRequest(
+            _client.Request("method=getEventList"),
+            all, name, sport, rg, level, datefrom, dateto, club
+        )
+            .AppendQueryParam("myClubId", myClubId, NullValueHandling.Ignore)
+            .GetJsonAsync<OrisResponse<OrisEventList_ClubEntries>>();
 
         SuccessOrDie(response);
 
