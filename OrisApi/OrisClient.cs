@@ -4,6 +4,9 @@ using Flurl;
 using Flurl.Http;
 using Flurl.Http.Configuration;
 using OrisApi.Models.Enums;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using OrisApi.JsonConverters;
 
 namespace OrisApi;
 
@@ -18,6 +21,16 @@ public class OrisClient : IOrisClient
     public OrisClient(Url url)
     {
         _client = new FlurlClient(url.SetQueryParam("format", "json"));
+
+        var options = new JsonSerializerOptions {
+            NumberHandling = JsonNumberHandling.AllowReadingFromString,
+        };
+        options.Converters.Add(new RetardedOrisResponseDataConverter());
+        options.Converters.Add(new DateTimeJsonConverter());
+        options.Converters.Add(new DateOnlyJsonConverter());
+        options.Converters.Add(new BoolJsonConverter());
+
+        _client.Settings.JsonSerializer = new DefaultJsonSerializer(options);
     }
 
     public OrisClient(IFlurlClient client)
