@@ -14,6 +14,6 @@ public class BoolJsonConverter : JsonConverter<bool>
 
     public override void Write(Utf8JsonWriter writer, bool value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value ? "1" : "0");
+        writer.WriteBooleanValue(value);
     }
 }

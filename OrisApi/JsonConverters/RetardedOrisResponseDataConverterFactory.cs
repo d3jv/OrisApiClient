@@ -9,6 +9,9 @@ public class RetardedOrisResponseDataConverter : JsonConverterFactory
     public override bool CanConvert(Type typeToConvert)
     {
         return true;
+        // var k = typeToConvert.IsAssignableTo(typeof(IOrisResponseData));
+        // Console.WriteLine($"Can Convert {typeToConvert}: {k}");
+        // return k;
     }
 
     public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
@@ -52,7 +55,8 @@ public class RetardedOrisResponseDataConverter : JsonConverterFactory
 
         public override void Write(Utf8JsonWriter writer, T? value, JsonSerializerOptions options)
         {
-            throw new NotSupportedException("Writing is not supported due to a shortage of fucks given");
+            _innerConverter.Write(writer, value, options);
+            // throw new NotSupportedException("Writing is not supported due to a shortage of fucks given");
         }
     }
 }
