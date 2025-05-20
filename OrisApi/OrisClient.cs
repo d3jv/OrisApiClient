@@ -25,9 +25,10 @@ public class OrisClient : IOrisClient
         var options = new JsonSerializerOptions {
             NumberHandling = JsonNumberHandling.AllowReadingFromString,
         };
-        options.Converters.Add(new RetardedOrisResponseDataConverter());
         options.Converters.Add(new DateTimeJsonConverter());
+        options.Converters.Add(new NullableDateTimeJsonConverter());
         options.Converters.Add(new DateOnlyJsonConverter());
+        options.Converters.Add(new NullableDateOnlyJsonConverter());
         options.Converters.Add(new BoolJsonConverter());
 
         _client.Settings.JsonSerializer = new DefaultJsonSerializer(options);
