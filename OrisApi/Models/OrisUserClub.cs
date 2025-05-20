@@ -2,7 +2,7 @@ using static OrisApi.Models.OrisUserClubs;
 
 namespace OrisApi.Models;
 
-public class OrisUserClubs : Dictionary<string, OrisUserClub>
+public class OrisUserClubs : Dictionary<string, OrisUserClub>, IOrisResponseData
 {
     public class OrisUserClub
     {

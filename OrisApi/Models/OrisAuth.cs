@@ -3,7 +3,7 @@ using static OrisApi.Models.OrisAuth;
 
 namespace OrisApi.Models;
 
-public class OrisAuth : Dictionary<string, InnerOrisAuth>
+public class OrisAuth : Dictionary<string, InnerOrisAuth>, IOrisResponseData
 {
     [JsonIgnore]
     public int? ID => this.FirstOrDefault().Value.ID;

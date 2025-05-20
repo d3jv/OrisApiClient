@@ -45,6 +45,7 @@ public class OrisClient : IOrisClient
     }
 
     private void SuccessOrDie<T>(OrisResponse<T> response)
+    where T : IOrisResponseData
     {
         if (response is null) {
             throw new OrisApiException("ORIS did not respond");

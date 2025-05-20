@@ -4,6 +4,7 @@ using OrisApi.JsonConverters;
 namespace OrisApi.Models;
 
 public class OrisResponse<T>
+where T : IOrisResponseData
 {
     public string Method { get; init; }
 
