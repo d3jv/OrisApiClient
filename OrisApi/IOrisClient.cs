@@ -37,5 +37,12 @@ public interface IOrisClient
             DateOnly? dateto = null,
             string? club = null,
             int? myClubId = null);
+    public Task<OrisResponse<OrisEventEntries>> GetEventEntries(
+            int eventId,
+            int? classId = null,
+            string? className = null,
+            string? clubId = null,
+            int? entryStop = null,
+            int? entryStopOut = null);
 }
 

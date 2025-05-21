@@ -7,10 +7,11 @@ Klient pro API ORISu (https://oris.orientacnisporty.cz/API)
 - [ ] GetCSOSClubList
 - [ ] GetClub
 - [x] GetEventList
-- [x] GetEventListWithClubEntries (GetEventList s parametrem myClubId, který přidá přihlášky a výsledky)
+- [x] GetEventList - s filtrem myClubId
 - [x] GetEventListVersions
 - [ ] GetEvent
-- [ ] GetEventEntries
+- [x] GetEventEntries
+- [ ] GetEventEntries - s autorizací pro klubovou poznámku
 - [ ] GetUserEventEntries
 - [ ] GetEventServiceEntries
 - [ ] GetEventResults
@@ -20,7 +21,7 @@ Klient pro API ORISu (https://oris.orientacnisporty.cz/API)
 - [ ] GetRegistration
 - [x] GetClubUsers (GetUserClubs)
 - [ ] GetValidClasses
-- [ ] CreateENtry
+- [ ] CreateEntry
 - [ ] UpdateEntry
 - [ ] DeleteEntry
 - [ ] CreateServiceEntry

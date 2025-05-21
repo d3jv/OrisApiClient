@@ -189,4 +189,28 @@ public class OrisClient : IOrisClient
 
         return response;
     }
+
+    public async Task<OrisResponse<OrisEventEntries>> GetEventEntries(
+            int eventId,
+            int? classId = null,
+            string? className = null,
+            string? clubId = null,
+            int? entryStop = null,
+            int? entryStopOut = null
+            //TODO: authorization in a separate method
+            )
+    {
+        var response = await _client.Request("method=getEventEntries")
+            .AppendQueryParam("eventid", eventId)
+            .AppendQueryParam("classid", classId, NullValueHandling.Ignore)
+            .AppendQueryParam("classname", className, NullValueHandling.Ignore)
+            .AppendQueryParam("clubid", clubId, NullValueHandling.Ignore)
+            .AppendQueryParam("entrystop", entryStop, NullValueHandling.Ignore)
+            .AppendQueryParam("entrystopout", entryStopOut, NullValueHandling.Ignore)
+            .GetJsonAsync<OrisResponse<OrisEventEntries>>();
+
+        SuccessOrDie(response);
+
+        return response;
+    }
 }
