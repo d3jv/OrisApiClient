@@ -238,4 +238,15 @@ public class OrisClient : IOrisClient
 
         return response;
     }
+
+    public async Task<OrisResponse<OrisEvent>> GetEvent(int id)
+    {
+        var response = await _client.Request("method=getEvent")
+            .AppendQueryParam("id", id)
+            .GetJsonAsync<OrisResponse<OrisEvent>>();
+
+        SuccessOrDie(response);
+
+        return response;
+    }
 }

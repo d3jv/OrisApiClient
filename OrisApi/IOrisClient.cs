@@ -48,5 +48,6 @@ public interface IOrisClient
     public Task<OrisResponse<OrisEventServiceEntries>> GetEventServiceEntries(
             int eventId,
             string? clubId = null);
+    public Task<OrisResponse<OrisEvent>> GetEvent(int id);
 }
 
