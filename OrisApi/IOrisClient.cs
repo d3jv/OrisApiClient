@@ -44,5 +44,9 @@ public interface IOrisClient
             string? clubId = null,
             int? entryStop = null,
             int? entryStopOut = null);
+    public Task<OrisResponse<OrisEventBalance>> GetEventBalance(int eventId);
+    public Task<OrisResponse<OrisEventServiceEntries>> GetEventServiceEntries(
+            int eventId,
+            string? clubId = null);
 }
 

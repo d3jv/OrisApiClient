@@ -13,7 +13,7 @@ Klient pro API ORISu (https://oris.orientacnisporty.cz/API)
 - [x] GetEventEntries
 - [ ] GetEventEntries - s autorizací pro klubovou poznámku
 - [ ] GetUserEventEntries
-- [ ] GetEventServiceEntries
+- [x] GetEventServiceEntries
 - [ ] GetEventResults
 - [ ] GetEventRankResults
 - [ ] GetEventStartLists
@@ -27,7 +27,7 @@ Klient pro API ORISu (https://oris.orientacnisporty.cz/API)
 - [ ] CreateServiceEntry
 - [ ] UpdateServiceEntry
 - [ ] DeleteServiceEntry
-- [ ] GetEventBalance
+- [x] GetEventBalance
 - [ ] GetVersion
 - [ ] GetList
 - [ ] GetClassDefinitions

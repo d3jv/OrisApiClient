@@ -213,4 +213,29 @@ public class OrisClient : IOrisClient
 
         return response;
     }
+
+    public async Task<OrisResponse<OrisEventBalance>> GetEventBalance(int eventId)
+    {
+        var response = await _client.Request("method=getEventBalance")
+            .AppendQueryParam("eventid", eventId)
+            .GetJsonAsync<OrisResponse<OrisEventBalance>>();
+
+        SuccessOrDie(response);
+
+        return response;
+    }
+
+    public async Task<OrisResponse<OrisEventServiceEntries>> GetEventServiceEntries(
+            int eventId,
+            string? clubId = null)
+    {
+        var response = await _client.Request("method=getEventServiceEntries")
+            .AppendQueryParam("eventid", eventId)
+            .AppendQueryParam("clubid", clubId, NullValueHandling.Ignore)
+            .GetJsonAsync<OrisResponse<OrisEventServiceEntries>>();
+
+        SuccessOrDie(response);
+
+        return response;
+    }
 }
