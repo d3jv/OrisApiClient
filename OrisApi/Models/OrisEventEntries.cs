@@ -42,7 +42,7 @@ public class OrisEventEntries : Dictionary<string, OrisEventEntry>
 
         public int? IOFID { get; set; }
 
-        public int Fee { get; set; }
+        public double Fee { get; set; }
 
         public int EntryStop { get; set; }
 

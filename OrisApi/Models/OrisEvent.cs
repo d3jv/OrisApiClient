@@ -11,7 +11,7 @@ public class OrisEvent
 
     public DateOnly Date { get; set; }
 
-    public int EntryRentSIFee { get; set; }
+    public double EntryRentSIFee { get; set; }
 
     public bool Cancelled { get; set; }
 
@@ -23,6 +23,6 @@ public class OrisEvent
     {
         public int ID { get; set; }
 
-        public int Fee { get; set; }
+        public double Fee { get; set; }
     }
 }

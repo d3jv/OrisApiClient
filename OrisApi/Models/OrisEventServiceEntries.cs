@@ -23,7 +23,7 @@ public class OrisEventServiceEntries : Dictionary<string, OrisEventServiceEntry>
 
         public int Quantity { get; set; }
 
-        public int TotalFee { get; set; }
+        public double TotalFee { get; set; }
 
         public DateTime CreatedDateTime { get; set; }
 

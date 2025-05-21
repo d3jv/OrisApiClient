@@ -18,16 +18,16 @@ public class OrisEventBalance
 
         public string ClubAbbr { get; set; }
 
-        public int FeeEntry { get; set; }
+        public double FeeEntry { get; set; }
 
-        public int FeeSI { get; set; }
+        public double FeeSI { get; set; }
 
-        public int FeeService { get; set; }
+        public double FeeService { get; set; }
 
-        public int FeeTotal { get; set; }
+        public double FeeTotal { get; set; }
 
-        public int Paid { get; set; }
+        public double Paid { get; set; }
 
-        public int ToBePaid { get; set; }
+        public double ToBePaid { get; set; }
     }
 }
