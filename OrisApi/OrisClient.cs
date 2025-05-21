@@ -31,6 +31,7 @@ public class OrisClient : IOrisClient
         options.Converters.Add(new DateOnlyJsonConverter());
         options.Converters.Add(new NullableDateOnlyJsonConverter());
         options.Converters.Add(new BoolJsonConverter());
+        options.Converters.Add(new RetardedOrisResponseDataConverterFactory());
 
         _client.Settings.JsonSerializer = new DefaultJsonSerializer(options);
     }

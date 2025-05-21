@@ -4,45 +4,38 @@ using System.Text.Json.Serialization;
 
 namespace OrisApi.JsonConverters;
 
-public class RetardedOrisResponseDataConverter : JsonConverterFactory
+public class RetardedOrisResponseDataConverterFactory : JsonConverterFactory
 {
     public override bool CanConvert(Type typeToConvert)
     {
-        return true;
+        return Nullable.GetUnderlyingType(typeToConvert) is not null;
         // var k = typeToConvert.IsAssignableTo(typeof(IOrisResponseData));
         // Console.WriteLine($"Can Convert {typeToConvert}: {k}");
         // return k;
     }
 
-    public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
-    {
-        JsonConverter converter = (JsonConverter)Activator.CreateInstance(
-            typeof(NullableConverter<>).MakeGenericType(
-                [typeToConvert]),
+    public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options) =>
+        (JsonConverter)Activator.CreateInstance(
+            typeof(NullableConverter<>)
+                .MakeGenericType([Nullable.GetUnderlyingType(typeToConvert)!]),
             BindingFlags.Instance | BindingFlags.Public,
             binder: null,
             args: [options],
             culture: null)!;
 
-        return converter;
-    }
-
     private class NullableConverter<T> : JsonConverter<T?>
+    where T : struct
     {
-        private readonly JsonConverter<T?> _innerConverter;
-        private readonly Type _type;
-
         public NullableConverter(JsonSerializerOptions options)
         {
-            _type = typeof(T);
-
-            // For performance, use the existing converter.
-            _innerConverter = (JsonConverter<T?>)options
-                .GetConverter(_type);
         }
 
         public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null) {
+                return default;
+            }
+
             if (reader.TokenType == JsonTokenType.StartArray) {
                 if (reader.Read() && reader.TokenType == JsonTokenType.EndArray) {
                     return default;
@@ -50,12 +43,17 @@ public class RetardedOrisResponseDataConverter : JsonConverterFactory
                 throw new JsonException();
             }
 
-            return _innerConverter.Read(ref reader, typeToConvert, options);
+            if (reader.TokenType == JsonTokenType.String &&
+                    string.IsNullOrEmpty(reader.GetString())) {
+                return default;
+            }
+
+            return JsonSerializer.Deserialize<T>(ref reader, options);
         }
 
         public override void Write(Utf8JsonWriter writer, T? value, JsonSerializerOptions options)
         {
-            _innerConverter.Write(writer, value, options);
+            JsonSerializer.Serialize(writer, value, options);
             // throw new NotSupportedException("Writing is not supported due to a shortage of fucks given");
         }
     }

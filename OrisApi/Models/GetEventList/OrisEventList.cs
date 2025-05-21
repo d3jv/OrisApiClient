@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-using OrisApi.JsonConverters;
 using OrisApi.Models.GetEventList.Inner;
 using static OrisApi.Models.GetEventList.OrisEventList;
 using static OrisApi.Models.GetEventList.OrisEventList_Versions;
@@ -16,7 +14,6 @@ public class OrisEventList : Dictionary<string, OrisEvent>, IOrisResponseData
 
         public OrisEventOrg Org1 { get; set; }
 
-        [JsonConverter(typeof(RetardedOrisResponseDataConverter))]
         public OrisEventOrg? Org2 { get; set; }
 
         /// <summary>
@@ -24,7 +21,6 @@ public class OrisEventList : Dictionary<string, OrisEvent>, IOrisResponseData
         /// </summary>
         public string Region { get; set; }
 
-        [JsonConverter(typeof(RetardedOrisResponseDataConverter))]
         public Dictionary<string, OrisRegion> Regions { get; set; }
 
         public OrisSport Sport { get; set; }
