@@ -3,7 +3,7 @@ using static OrisApi.Models.OrisEventServiceEntries;
 
 namespace OrisApi.Models;
 
-public class OrisEventServiceEntries : Dictionary<string, OrisEventServiceEntry>, IOrisResponseData
+public class OrisEventServiceEntries : Dictionary<string, OrisEventServiceEntry>
 {
     public class OrisEventServiceEntry
     {

@@ -1,9 +1,9 @@
 using System.Text.Json.Serialization;
+using OrisApi.JsonConverters;
 
 namespace OrisApi.Models;
 
 public class OrisResponse<T>
-where T : IOrisResponseData
 {
     public string Method { get; init; }
 
@@ -16,5 +16,6 @@ where T : IOrisResponseData
 
     public DateTime ExportCreated { get; init; }
 
+    [JsonConverter(typeof(IamFuckingDoneWithThisJsonConverterFactory))]
     public T? Data { get; init; }
 }

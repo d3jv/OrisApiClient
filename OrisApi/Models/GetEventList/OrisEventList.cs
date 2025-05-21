@@ -1,10 +1,9 @@
 using OrisApi.Models.GetEventList.Inner;
-using static OrisApi.Models.GetEventList.OrisEventList;
 using static OrisApi.Models.GetEventList.OrisEventList_Versions;
 
 namespace OrisApi.Models.GetEventList;
 
-public class OrisEventList : Dictionary<string, OrisEvent>, IOrisResponseData
+public class OrisEventList : Dictionary<string, OrisEvent>
 {
     public class OrisEvent : OrisEvent_Versions
     {

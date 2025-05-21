@@ -2,7 +2,7 @@ using static OrisApi.Models.GetEventList.OrisEventList_Versions;
 
 namespace OrisApi.Models.GetEventList;
 
-public class OrisEventList_Versions : Dictionary<string, OrisEvent_Versions>, IOrisResponseData
+public class OrisEventList_Versions : Dictionary<string, OrisEvent_Versions>
 {
     public class OrisEvent_Versions
     {

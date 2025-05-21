@@ -3,7 +3,7 @@ using OrisApi.Models.GetEventList.Inner;
 namespace OrisApi.Models;
 
 // TODO: Add the rest of the fields
-public class OrisEvent : IOrisResponseData
+public class OrisEvent
 {
     public int ID { get; set; }
 

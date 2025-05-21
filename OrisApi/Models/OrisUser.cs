@@ -1,6 +1,6 @@
 namespace OrisApi.Models;
 
-public class OrisUser : IOrisResponseData
+public class OrisUser
 {
     public int ID { get; init; }
 

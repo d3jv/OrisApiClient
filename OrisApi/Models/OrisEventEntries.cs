@@ -2,7 +2,7 @@ using static OrisApi.Models.OrisEventEntries;
 
 namespace OrisApi.Models;
 
-public class OrisEventEntries : Dictionary<string, OrisEventEntry>, IOrisResponseData
+public class OrisEventEntries : Dictionary<string, OrisEventEntry>
 {
     public class OrisEventEntry
     {

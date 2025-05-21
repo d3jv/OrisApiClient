@@ -1,9 +1,8 @@
-using static OrisApi.Models.GetEventList.OrisEventList;
 using static OrisApi.Models.GetEventList.OrisEventList_ClubEntries;
 
 namespace OrisApi.Models.GetEventList;
 
-public class OrisEventList_ClubEntries : Dictionary<string, OrisEvent_ClubEntries>, IOrisResponseData
+public class OrisEventList_ClubEntries : Dictionary<string, OrisEvent_ClubEntries>
 {
     public class OrisEvent_ClubEntries : OrisEvent
     {
